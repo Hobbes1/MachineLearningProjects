@@ -47,17 +47,8 @@
 			"file": "src/LSR.py",
 			"settings":
 			{
-				"buffer_size": 9367,
+				"buffer_size": 11497,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "images/LSR.mp4",
-			"settings":
-			{
-				"buffer_size": 299770,
-				"encoding": "Hexadecimal",
 				"line_ending": "Unix"
 			}
 		}
@@ -242,11 +233,15 @@
 	"expanded_folders":
 	[
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR",
+		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/data",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/images",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/src"
 	],
 	"file_history":
 	[
+		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/images/frame_004.png",
+		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/images/frame_02.png",
+		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/images/LSR.mp4",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/data/ShenyangPM20100101_20151231.csv",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/data/ShanghaiPM20100101_20151231.csv",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/data/GuangzhouPM20100101_20151231.csv",
@@ -381,7 +376,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -390,15 +385,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9367,
+						"buffer_size": 11497,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4567,
-								4567
+								10316,
+								10316
 							]
 						],
 						"settings":
@@ -407,45 +402,11 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3240.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "images/LSR.mp4",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 299770,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4266.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
-				},
-				{
-					"file": "images/frame_02.png",
-					"semi_transient": false,
-					"stack_index": 2,
-					"type": "image"
 				}
 			]
 		}
