@@ -1,3 +1,4 @@
+import sys
 import numpy
 from numpy.lib import recfunctions
 import datetime
@@ -8,6 +9,16 @@ from matplotlib import lines
 ###############################################
 ## Helper functions, to put in a helper file ##
 ###############################################
+
+		# Tuning alpha parameters is easier if target vectors
+		# are normalized
+
+def normalizeVector(vector):
+	summ = numpy.sum(vector)
+	for i in range(len(vector)):
+		vector[i] = vector[i]/summ
+
+	return vector
 
 		# Some of my dataset had negative values which are invalid
 		# I chose to interpolate using neighboring values, rather 
@@ -75,16 +86,57 @@ def mergeTimeColumns(data, years, months, days, hours):
 		# but is still useful to view error as a function 
 		# of regression steps taken
 
+def formSecondOrderPoly(xs, Weights):
+	ys = numpy.zeros(100)
+	for i in range(len(xs)):
+		ys[i] = Weights[0] + xs[i] * Weights[1] + xs[i] * xs[i] * Weights[2]
+
+	return ys
+
 def squareError(Weights, InputVectors, TargetVector):
 
 	err = 0.0
 	for weightSet in range(len(Weights)):
 		tempGuess = 0.0
-		for idx in range(len(InputVectors[weightSet])):
-			tempGuess = Weights[weightSet] * InputVectors[weightSet][idx] #h_theta(X) from Andrew's lecture
+		for idx in range(len(InputVectors[0])):
+			tempGuess = Weights[0] * InputVectors[0][idx] #h_theta(X) from Andrew's lecture
 			err += (tempGuess - TargetVector[idx]) ** 2
 
 	return err
+
+		# Performing sum of derivs for each order of polynomial asked for
+		# Higher order polys get more derivatives and terms added to all weightDerivatives
+
+def firstOrderPolyErrors(weightIdx, vectorIdx, Weights, InputVectors, TargetVector):
+	sumOfDerivativeErrors = 0
+	if weightIdx == 0:
+		sumOfDerivativeErrors += ((Weights[0] + Weights[1] * InputVectors[weightIdx][vectorIdx] - TargetVector[vectorIdx]))
+	elif weightIdx == 1:
+		sumOfDerivativeErrors += (Weights[0] + Weights[1] * InputVectors[weightIdx][vectorIdx] - TargetVector[vectorIdx]) * InputVectors[weightIdx][vectorIdx]
+
+	return sumOfDerivativeErrors
+
+def secondOrderPolyErrors(weightIdx, vectorIdx, Weights, InputVectors, TargetVector):
+	sumOfDerivativeErrors = 0
+	if weightIdx == 0:
+		sumOfDerivativeErrors += ((Weights[0] + Weights[1] * InputVectors[0][vectorIdx] + Weights[2] * InputVectors[0][vectorIdx] * InputVectors[0][vectorIdx] - TargetVector[vectorIdx]))
+	elif weightIdx == 1:
+		sumOfDerivativeErrors += (Weights[0] + Weights[1] * InputVectors[0][vectorIdx] + Weights[2] * InputVectors[0][vectorIdx] * InputVectors[0][vectorIdx] - TargetVector[vectorIdx]) * InputVectors[0][vectorIdx]
+	elif weightIdx == 2:
+		sumOfDerivativeErrors += (Weights[0] + Weights[1] * InputVectors[0][vectorIdx] + Weights[2] * InputVectors[0][vectorIdx] * InputVectors[0][vectorIdx] - TargetVector[vectorIdx]) * (InputVectors[0][vectorIdx] * InputVectors[0][vectorIdx])
+
+	return sumOfDerivativeErrors
+
+def thirdOrderPolyErrors(Weights, InputVectors, TargetVector):
+	sumOfDerivativeErrors = 0
+	if weightIdx == 0:
+		sumOfDerivativeErrors += ((Weights[0] + Weights[1] * InputVectors[weightIdx][idx] + Weights[2] * InputVectors[weightIdx][vectorIdx] * InputVectors[weightIdx][vectorIdx] - TargetVector[idx]))
+	elif weightIdx == 1:
+		sumOfDerivativeErrors += (Weights[0] + Weights[1] * InputVectors[weightIdx][idx] + Weights[2] * InputVectors[weightIdx][vectorIdx] * InputVectors[weightIdx][vectorIdx] - TargetVector[idx]) * InputVectors[weightIdx][idx]
+	elif weightIdx == 2:
+		sumOfDerivativeErrors += (Weights[0] + Weights[1] * InputVectors[weightIdx][idx] + Weights[2] * InputVectors[weightIdx][vectorIdx] * InputVectors[weightIdx][vectorIdx] - TargetVector[idx]) * InputVectors[weightIdx][idx] * InputVectors[weightIdx][idx]
+
+	return sumOfDerivativeErrors
 
 		# Note: Read InputVectors[weight][idx] 
 		# as the input vector associated with weight "weight" at index idx (A single training input value)
@@ -92,17 +144,26 @@ def squareError(Weights, InputVectors, TargetVector):
 def batchGradientDescentStep(Weights, InputVectors, TargetVector, Alphas):
 	for weightIdx in range(len(Weights)):
 		sumOfDerivativeErrors = 0.0
-		for idx in range(len(InputVectors[weightIdx])):
+		for idx in range(len(InputVectors[0])):
 				# Subtract from the weight the gradient in the associated Input direction
 				#w hose derivative is equal to the sum [ Err (not squared) * X_i ] where
 				# X_i is the InputVector associated with the weight.
 
+			if len(Weights) == 2:
+				sumOfDerivativeErrors = firstOrderPolyErrors(weightIdx, idx, Weights, InputVectors, TargetVector)
+			elif len(Weights) == 3:
+				sumOfDerivativeErrors = secondOrderPolyErrors(weightIdx, idx, Weights, InputVectors, TargetVector)
 			#Theta_0, the constant factor
+			'''
 			if weightIdx == 0:
 				sumOfDerivativeErrors += ((Weights[0] + Weights[1] * InputVectors[weightIdx][idx] - TargetVector[idx]))
 			#Theta_1, the linear factor
 			elif weightIdx == 1:
 				sumOfDerivativeErrors += (Weights[0] + Weights[1] * InputVectors[weightIdx][idx] - TargetVector[idx]) * InputVectors[weightIdx][idx]
+			elif (len(Weights>2)):
+				if weightIdx == 2:
+					sumOfDerivativeErrors += (Weights[0] + Weights[1] * InputVectors[])
+			'''
 			# Doing so for all weights constitudes one step of gradient descent 
 			# Higher order polynomial derivative terms would go here
 			# or any guess term (Sigmoid, hyperbolic eqn, (fourier terms?))
@@ -114,13 +175,9 @@ def batchGradientDescentStep(Weights, InputVectors, TargetVector, Alphas):
 	return Weights
 
 
-
-
-
-
 ##############################
 ###### actual code ###########
-######################################################
+##############################
 
 # This needs to be automated somehow . . .
 dtypes = ('i4,i4,i4,i4,i4,f4,f4,f4,f4,f4,f4,f4')
@@ -132,17 +189,21 @@ data = mergeTimeColumns(data, data["year"], data["month"], data["day"], data["ho
 
 Input = 'hours'
 Target = 'TEMP'
-
+dStart = 0
+dEnd = 9000
 data[Target] = interpolateBadNegatives(data[Target])
+data[Target] = normalizeVector(data[Target])
+print data[Target]
 data[Input] = interpolateBadNegatives(data[Input])
 
+
 NumSamples = data.size
-TargetVector = data[Target][0:5200]
+TargetVector = (data[Target][dStart:dEnd])
 		# I make weights and inputs vectors, or vectors of vectors 
 		# respectively regardless of there being one or many, so that I can call
 		# one set of functions on them making use of range() regardless
-InputVectors = [data[Input][0:5200], data[Input][0:5200]]
-Weights = [0.0, 0.0];
+InputVectors = [data[Input][dStart:dEnd]]
+Weights = [0.000015, 0.00000001, 0.0];
 
 # For the WP, it took me the most time to figure out a few things:
 # - Shit wasn't working because I had bad data that I hadn't visualized (negatives)
@@ -152,7 +213,7 @@ Weights = [0.0, 0.0];
 #   term reaching an equilibrium before the constant term got a chance to move.
 
 #ratio of rates: 2 : 0.00000001
-Alphas = [0.00002, 0.000000000001]
+Alphas = [0.018, 0.0000000005,0.000000000000000025]
 
 print TargetVector.shape
 print TargetVector
@@ -170,8 +231,8 @@ print Weights
 
 plt.figure(figsize=(8,6))
 
-plt.scatter(data[Input][0:5200], data[Target][0:5200], s=1)
-plt.axis([0, numpy.amax(data[Input][0:5200]), 0, numpy.amax(data[Target][0:5200]) + 10])
+plt.scatter(data[Input][dStart:dEnd], data[Target][dStart:dEnd], s=1)
+plt.axis([0, numpy.amax(data[Input][dStart:dEnd]), 0, numpy.amax(data[Target][dStart:dEnd])])
 
 plt.gcf().set_facecolor((0.2, 0.2, 0.22))
 plt.gcf().figsize = (8, 6)
@@ -193,60 +254,35 @@ steps = 120
 pad = len(str(steps))
 f = 0
 
+record = False
+if sys.argv[1] == 'record':
+	record = True
+
+xs = numpy.arange(0, dEnd, (dEnd - dStart)/100)
+ys = numpy.zeros(100)
+
 myLines = []
 for i in range(steps):
 	Weights = batchGradientDescentStep(Weights, InputVectors, TargetVector, Alphas)
 	err = squareError(Weights, InputVectors, TargetVector)
 	print "	Weights: " + str(Weights) 
 	print "	Err: " + str(err)
-	
-	print len(ax.lines)
-	
-	myLines.append(lines.Line2D([0, numpy.amax(data[Input])], [Weights[0], Weights[0] + Weights[1]*numpy.amax(data[Input])], color='r'))
-	ax.add_line(myLines[i])
-	if i > 2:
-		ax.lines[0].remove()
-		ax.lines[0].set_alpha(0.1)
-		ax.lines[1].set_alpha(0.5)
 
-	name = '../images/frame_'+str(f).zfill(pad)+'.png'
-	f+=1
-	plt.savefig(name, bbox_inches='tight', facecolor=(0.2,0.2,0.22))
+	if (len(Weights) == 2):
+		myLines.append(lines.Line2D([0, numpy.amax(data[Input])], [Weights[0], Weights[0] + Weights[1]*numpy.amax(data[Input])], color='r'))
+		ax.add_line(myLines[i])
+	else:
+		ys = formSecondOrderPoly(xs, Weights)
+		plt.plot(xs, ys, color='r')
+
+	if (record):	
+		if i > 2:
+			ax.lines[0].remove()
+			ax.lines[0].set_alpha(0.1)
+			ax.lines[1].set_alpha(0.5)
+
+		name = '../images/frame_'+str(f).zfill(pad)+'.png'
+		f+=1
+		plt.savefig(name, bbox_inches='tight', facecolor=(0.2,0.2,0.22))
 
 plt.show()
-	
-'''
-def anim(i):
-	global Weights, err, InputVectors, TargetVector, Alphas
-	Weights = batchGradientDescentStep(Weights, InputVectors, TargetVector, Alphas)
-	err = squareError(Weights, InputVectors, TargetVector)
-	print "	Weights: " + str(Weights) 
-	print "	Err: " + str(err)
-	lines[2] = lines[1]
-	lines[1] = lines[0]
-	lines[0] = ax.plot([0, numpy.amax(data[Input])], [Weights[0], Weights[0] + Weights[1]*numpy.amax(data[Input])])
-	return lines[0]
-	#plt.plot([0, numpy.amax(data[Input])], [Weights[0], Weights[0] + Weights[1]*numpy.amax(data[Input])], 'r-')
-'''
-#ani = animation.FuncAnimation(plt.gcf(), anim, init_func=init, frames=120, interval=20, blit=True)
-#ani.save('../regressionAnimation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
-#plt.show()
-'''
-for i in range(150):
-	Weights = batchGradientDescentStep(Weights, InputVectors, TargetVector, Alphas)
-	err = squareError(Weights, InputVectors, TargetVector)
-	print "	Weights: " + str(Weights) 
-	print "	Err: " + str(err)
-	plt.plot([0, numpy.amax(data[Input])], [Weights[0], Weights[0] + Weights[1]*numpy.amax(data[Input])], 'r-')
-'''
-
-names = data.dtype.names
-print len(Weights)
-print len(InputVectors)
-#print data.dtype.names
-##print data[0]
-#print data[1]
-#print data['PRES']
-
-
-#plt.show()
