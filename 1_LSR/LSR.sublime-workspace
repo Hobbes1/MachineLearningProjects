@@ -44,11 +44,35 @@
 	"buffers":
 	[
 		{
-			"file": "src/LSR.py",
+			"file": "/home/hobbes/Projects/MachineLearningProjects/common/tools.py",
 			"settings":
 			{
-				"buffer_size": 11497,
+				"buffer_size": 6313,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/hobbes/Projects/MachineLearningProjects/2_Lowess/WeightedLSR.py",
+			"settings":
+			{
+				"buffer_size": 6263,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "MultiInputLSR.py",
+			"settings":
+			{
+				"buffer_size": 3407,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		}
@@ -232,13 +256,20 @@
 	},
 	"expanded_folders":
 	[
+		"/home/hobbes/Projects/MachineLearningProjects",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR",
-		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/data",
-		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/images",
-		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/src"
+		"/home/hobbes/Projects/MachineLearningProjects/2_Lowess",
+		"/home/hobbes/Projects/MachineLearningProjects/common"
 	],
 	"file_history":
 	[
+		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/LSR.py",
+		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/MultiInputLSR.py",
+		"/home/hobbes/Projects/MachineLearningProjects/2_Lowess/images/frame_00.png",
+		"/home/hobbes/Projects/MachineLearningProjects/2_Lowess/images/frame_15.png",
+		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/src/LSR.py",
+		"/home/hobbes/Projects/MachineLearningProjects/common/tools/tools.py",
+		"/home/hobbes/Projects/MachineLearningProjects/common/tools/dataScrubbing.py",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/images/frame_004.png",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/images/frame_02.png",
 		"/home/hobbes/Projects/MachineLearningProjects/1_LSR/images/LSR.mp4",
@@ -295,6 +326,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Alphas",
+			"])],",
+			"NumSamples",
 			"'HUMI'",
 			"'Target'",
 			"precipitation",
@@ -376,24 +410,24 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/LSR.py",
+					"file": "/home/hobbes/Projects/MachineLearningProjects/common/tools.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11497,
+						"buffer_size": 6313,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10316,
-								10316
+								4123,
+								4123
 							]
 						],
 						"settings":
@@ -402,10 +436,94 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4266.0,
+						"translation.y": 1437.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/hobbes/Projects/MachineLearningProjects/2_Lowess/WeightedLSR.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6263,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3880,
+								3880
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1890.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "MultiInputLSR.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 3407,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								174,
+								214
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1080.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -500,7 +618,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 261.0,
+	"side_bar_width": 312.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
